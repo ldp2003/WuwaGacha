@@ -134,17 +134,6 @@ client.on('messageCreate', (message) => {
         const rateUpCount = user.count5StarRateUp;
 
         let response;
-        if (rolls > 100) {
-            const rateUpCount = results.filter(res => res.includes("Rate Up")).length;
-            const deviatedCount = results.filter(res => res.includes("Sadge")).length;
-
-            // Tính tổng số 5★, 4★ và 3★ trong lần roll hiện tại
-            const totalFiveStarsThisRoll = results.filter(res => res.includes("5★")).length;
-            const totalFourStarsThisRoll = results.filter(res => res.includes("4★")).length;
-            const totalThreeStarsThisRoll = results.filter(res => res.includes("3★")).length;
-
-            // Gacha Summary chỉ cho lần roll hiện tại
-            let response;
 if (rolls > 100) {
     response = `🎰 **${user.name}'s Gacha Summary** 🎰
     - **Total rolls this time:** ${rolls}
