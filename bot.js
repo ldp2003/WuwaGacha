@@ -144,68 +144,44 @@ client.on('messageCreate', (message) => {
             const totalThreeStarsThisRoll = results.filter(res => res.includes("3★")).length;
 
             // Gacha Summary chỉ cho lần roll hiện tại
-            response = `🎰 **${user.name}'s Gacha Summary** 🎰
-        ` +
-                `- **Total rolls this time:** ${rolls}` +
-                `- **Total 5★ this time:** ${totalFiveStarsThisRoll} (Rate Up: ${rateUpCount}, Lệch: ${deviatedCount})` +
-                `- **Total 4★ this time:** ${totalFourStarsThisRoll}
-        ` +
-                `- **Total 3★ this time:** ${totalThreeStarsThisRoll}
-        
-        ` +
-                `📋 **5★ Characters Obtained:**
-        ` +
-                `${user.fiveStarDetails.slice(-rolls).map((char, idx) => `#${idx + 1}: ${char}`).join('\n')}` +
+            let response;
+if (rolls > 100) {
+    response = `🎰 **${user.name}'s Gacha Summary** 🎰
+    - **Total rolls this time:** ${rolls}
+    - **Total 5★ this time:** ${totalFiveStarsThisRoll} (Rate Up: ${rateUpCount}, Lệch: ${deviatedCount})
+    - **Total 4★ this time:** ${totalFourStarsThisRoll}
+    - **Total 3★ this time:** ${totalThreeStarsThisRoll}
+    
+    📋 **5★ Characters Obtained:**
+    ${user.fiveStarDetails.slice(-rolls).map((char, idx) => `#${idx + 1}: ${char}`).join('\n')}
+    
+    📊 **Stats:**
+    - 5★ pity: ${user.pity5}
+    - Total rolls (all time): ${user.totalRolls}
+    - Total 5★ (all time): ${user.count5Star}
+    - 5★ Rate (all time): ${user.getFiveStarRate()}%
+    - Win rate (all time): ${user.getWinRate()}%
+    - Total 5★ Rate Up (all time): ${user.count5StarRateUp}
+    - Total 5★ lệch (all time): ${user.count5StarDeviated}
+    - Total 4★ (all time): ${user.count4Star}
+    - Total 3★ (all time): ${user.count3Star}`;
+} else {
+    response = `🎰 **${user.name}'s Gacha Results** 🎰
+    ${results.map((res, idx) => `Roll ${idx + 1}: ${res}`).join('\n')}
+    
+    📊 **Stats:**
+    - 5★ pity: ${user.pity5}
+    - Total rolls (all time): ${user.totalRolls}
+    - Total 5★ (all time): ${user.count5Star}
+    - 5★ Rate (all time): ${user.getFiveStarRate()}%
+    - Win rate (all time): ${user.getWinRate()}%
+    - Total 5★ Rate Up (all time): ${user.count5StarRateUp}
+    - Total 5★ lệch (all time): ${user.count5StarDeviated}
+    - Total 4★ (all time): ${user.count4Star}
+    - Total 3★ (all time): ${user.count3Star}`;
+}
 
-                `
-        
-        📊 **Stats:**
-        ` +
-                `- 5★ pity: ${user.pity5}
-        ` +
-                `- Total rolls (all time): ${user.totalRolls}
-        ` +
-                `- Total 5★ (all time): ${user.count5Star}
-        ` +
-                `- 5★ Rate (all time): ${user.getFiveStarRate()}%
-        ` +
-                `- Win rate (all time): ${user.getWinRate()}%
-        ` +
-                `- Total 5★ Rate Up (all time): ${user.count5StarRateUp}
-        ` +
-                `- Total 5★ lệch (all time): ${user.count5StarDeviated}
-        ` +
-                `- Total 4★ (all time): ${user.count4Star}
-        ` +
-                `- Total 3★ (all time): ${user.count3Star}`;
-        } else {
-            response = `🎰 **${user.name}'s Gacha Results** 🎰
-        ` +
-                results.map((res, idx) => `Roll ${idx + 1}: ${res}`).join('\n') +
-                `
-        
-        📊 **Stats:**
-        ` +
-                `- 5★ pity: ${user.pity5}
-        ` +
-                `- Total rolls (all time): ${user.totalRolls}
-        ` +
-                `- Total 5★ (all time): ${user.count5Star}
-        ` +
-                `- 5★ Rate (all time): ${user.getFiveStarRate()}%
-        ` +
-                `- Win rate (all time): ${user.getWinRate()}%
-        ` +
-                `- Total 5★ Rate Up (all time): ${user.count5StarRateUp}
-        ` +
-                `- Total 5★ lệch (all time): ${user.count5StarDeviated}
-        ` +
-                `- Total 4★ (all time): ${user.count4Star}
-        ` +
-                `- Total 3★ (all time): ${user.count3Star}`;
-        }
-
-        message.channel.send(response);
+message.channel.send(response);
     } else if (message.content === '/resetpity') {
         const userId = message.author.id;
         if (users[userId]) {
