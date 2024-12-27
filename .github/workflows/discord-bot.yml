@@ -1,0 +1,31 @@
+name: Run Discord Bot
+
+on:
+  push:
+    branches:
+      - main  # Chạy khi có thay đổi trên nhánh chính (main)
+  pull_request:
+    branches:
+      - main  # Chạy khi có pull request vào nhánh chính (main)
+
+jobs:
+  build:
+    runs-on: ubuntu-latest  # Chạy trên môi trường Ubuntu mới nhất
+
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v2  # Lấy mã nguồn từ repository
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '16'  # Chọn phiên bản Node.js bạn muốn sử dụng
+
+      - name: Install dependencies
+        run: npm install  # Cài đặt các phụ thuộc của dự án
+
+      - name: Set up environment variables
+        run: echo "DISCORD_TOKEN=${{ secrets.DISCORD_TOKEN }}" >> $GITHUB_ENV  # Lấy token từ GitHub Secrets
+
+      - name: Run the bot
+        run: node bot.js  # Chạy bot Discord của bạn (nếu bot.js là tệp chính)
