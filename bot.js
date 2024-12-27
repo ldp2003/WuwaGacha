@@ -146,10 +146,8 @@ client.on('messageCreate', (message) => {
             // Gacha Summary chỉ cho lần roll hiện tại
             response = `🎰 **${user.name}'s Gacha Summary** 🎰
         ` +
-                `- **Total rolls this time:** ${rolls}
-        ` +
-                `- **Total 5★ this time:** ${totalFiveStarsThisRoll} (Rate Up: ${rateUpCount}, Lệch: ${deviatedCount})
-        ` +
+                `- **Total rolls this time:** ${rolls}` +
+                `- **Total 5★ this time:** ${totalFiveStarsThisRoll} (Rate Up: ${rateUpCount}, Lệch: ${deviatedCount})` +
                 `- **Total 4★ this time:** ${totalFourStarsThisRoll}
         ` +
                 `- **Total 3★ this time:** ${totalThreeStarsThisRoll}
