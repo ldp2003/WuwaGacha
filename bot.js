@@ -134,8 +134,15 @@ client.on('messageCreate', (message) => {
         const rateUpCount = user.count5StarRateUp;
 
         let response;
-if (rolls > 100) {
-    response = `🎰 **${user.name}'s Gacha Summary** 🎰
+        if (rolls > 100) {
+            const rateUpCount = results.filter(res => res.includes("Rate Up")).length;
+            const deviatedCount = results.filter(res => res.includes("Sadge")).length;
+
+            // Tính tổng số 5★, 4★ và 3★ trong lần roll hiện tại
+            const totalFiveStarsThisRoll = results.filter(res => res.includes("5★")).length;
+            const totalFourStarsThisRoll = results.filter(res => res.includes("4★")).length;
+            const totalThreeStarsThisRoll = results.filter(res => res.includes("3★")).length;
+            response = `🎰 **${user.name}'s Gacha Summary** 🎰
     - **Total rolls this time:** ${rolls}
     - **Total 5★ this time:** ${totalFiveStarsThisRoll} (Rate Up: ${rateUpCount}, Lệch: ${deviatedCount})
     - **Total 4★ this time:** ${totalFourStarsThisRoll}
@@ -154,9 +161,9 @@ if (rolls > 100) {
     - Total 5★ lệch (all time): ${user.count5StarDeviated}
     - Total 4★ (all time): ${user.count4Star}
     - Total 3★ (all time): ${user.count3Star}`;
-} else {
-    response = `🎰 **${user.name}'s Gacha Results** 🎰
-    ${results.map((res, idx) => `Roll ${idx + 1}: ${res}`).join('\n')}
+        } else {
+            response = `🎰 **${user.name}'s Gacha Results** 🎰
+            ${results.map((res, idx) => `Roll ${idx + 1}: ${res}`).join('\n')}
     
     📊 **Stats:**
     - 5★ pity: ${user.pity5}
@@ -168,9 +175,9 @@ if (rolls > 100) {
     - Total 5★ lệch (all time): ${user.count5StarDeviated}
     - Total 4★ (all time): ${user.count4Star}
     - Total 3★ (all time): ${user.count3Star}`;
-}
+        }
 
-message.channel.send(response);
+        message.channel.send(response);
     } else if (message.content === '/resetpity') {
         const userId = message.author.id;
         if (users[userId]) {
