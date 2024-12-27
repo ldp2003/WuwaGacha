@@ -142,41 +142,12 @@ client.on('messageCreate', (message) => {
             const totalFiveStarsThisRoll = results.filter(res => res.includes("5★")).length;
             const totalFourStarsThisRoll = results.filter(res => res.includes("4★")).length;
             const totalThreeStarsThisRoll = results.filter(res => res.includes("3★")).length;
-            response = `🎰 **${user.name}'s Gacha Summary** 🎰
-    - **Total rolls this time:** ${rolls}
-    - **Total 5★ this time:** ${totalFiveStarsThisRoll} (Rate Up: ${rateUpCount}, Lệch: ${deviatedCount})
-    - **Total 4★ this time:** ${totalFourStarsThisRoll}
-    - **Total 3★ this time:** ${totalThreeStarsThisRoll}
-    
-    📋 **5★ Characters Obtained:**
-    
-    ${user.fiveStarDetails.slice(-rolls).map((char, idx) => `#${idx + 1}: ${char}`).join('\n')}
-    
-    📊 **Stats:**
-    - 5★ pity: ${user.pity5}
-    - Total rolls (all time): ${user.totalRolls}
-    - Total 5★ (all time): ${user.count5Star}
-    - 5★ Rate (all time): ${user.getFiveStarRate()}%
-    - Win rate (all time): ${user.getWinRate()}%
-    - Total 5★ Rate Up (all time): ${user.count5StarRateUp}
-    - Total 5★ lệch (all time): ${user.count5StarDeviated}
-    - Total 4★ (all time): ${user.count4Star}
-    - Total 3★ (all time): ${user.count3Star}`;
+            response = `
+            🎰 **${user.name}'s Gacha Summary** 🎰
+            \n- **Total rolls this time:** ${rolls}- **Total 5★ this time:** ${totalFiveStarsThisRoll} (Rate Up: ${rateUpCount}, Lệch: ${deviatedCount})\n- **Total 4★ this time:** ${totalFourStarsThisRoll}\n- **Total 3★ this time:** ${totalThreeStarsThisRoll}\n\n📋 **5★ Characters Obtained:**\n${user.fiveStarDetails.slice(-rolls).map((char, idx) => `#${idx + 1}: ${char}`).join('\n')}\n\n📊 **Stats:**\n- 5★ pity: ${user.pity5}\n- Total rolls (all time): ${user.totalRolls}\n- Total 5★ (all time): ${user.count5Star}\n- 5★ Rate (all time): ${user.getFiveStarRate()}%\n- Win rate (all time): ${user.getWinRate()}%\n- Total 5★ Rate Up (all time): ${user.count5StarRateUp}\n- Total 5★ lệch (all time): ${user.count5StarDeviated}\n- Total 4★ (all time): ${user.count4Star}\n- Total 3★ (all time): ${user.count3Star}`;
         } else {
-            response = `🎰 **${user.name}'s Gacha Results** 🎰
-            
-    ${results.map((res, idx) => `Roll ${idx + 1}: ${res}`).join('\n')}
-    
-    📊 **Stats:**
-    - 5★ pity: ${user.pity5}
-    - Total rolls (all time): ${user.totalRolls}
-    - Total 5★ (all time): ${user.count5Star}
-    - 5★ Rate (all time): ${user.getFiveStarRate()}%
-    - Win rate (all time): ${user.getWinRate()}%
-    - Total 5★ Rate Up (all time): ${user.count5StarRateUp}
-    - Total 5★ lệch (all time): ${user.count5StarDeviated}
-    - Total 4★ (all time): ${user.count4Star}
-    - Total 3★ (all time): ${user.count3Star}`;
+            response = `
+            🎰 **${user.name}'s Gacha Results** 🎰\n${results.map((res, idx) => `Roll ${idx + 1}: ${res}`).join('\n')}\n\n📊 **Stats:**\n- 5★ pity: ${user.pity5}\n- Total rolls (all time): ${user.totalRolls}\n- Total 5★ (all time): ${user.count5Star}\n- 5★ Rate (all time): ${user.getFiveStarRate()}%\n- Win rate (all time): ${user.getWinRate()}%\n- Total 5★ Rate Up (all time): ${user.count5StarRateUp}\n- Total 5★ lệch (all time): ${user.count5StarDeviated}\n- Total 4★ (all time): ${user.count4Star}\n- Total 3★ (all time): ${user.count3Star}`;
         }
 
         message.channel.send(response);
