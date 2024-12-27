@@ -53,7 +53,7 @@ class User {
     }
 
     getWinRate() {
-        return this.count5Star ? (this.count5StarRateUp / this.count5Star * 100).toFixed(2) : 0;
+        return this.count5Star ? 100 - ((this.count5Star - this.count5StarRateUp) / this.count5StarRateUp * 100).toFixed(2) : 0;
     }
 }
 
