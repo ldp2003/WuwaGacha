@@ -149,6 +149,7 @@ client.on('messageCreate', (message) => {
     - **Total 3★ this time:** ${totalThreeStarsThisRoll}
     
     📋 **5★ Characters Obtained:**
+    
     ${user.fiveStarDetails.slice(-rolls).map((char, idx) => `#${idx + 1}: ${char}`).join('\n')}
     
     📊 **Stats:**
@@ -163,7 +164,8 @@ client.on('messageCreate', (message) => {
     - Total 3★ (all time): ${user.count3Star}`;
         } else {
             response = `🎰 **${user.name}'s Gacha Results** 🎰
-            ${results.map((res, idx) => `Roll ${idx + 1}: ${res}`).join('\n')}
+            
+    ${results.map((res, idx) => `Roll ${idx + 1}: ${res}`).join('\n')}
     
     📊 **Stats:**
     - 5★ pity: ${user.pity5}
