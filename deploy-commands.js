@@ -16,6 +16,8 @@ const commands = [
             option.setName('rolls')
                 .setDescription('Số lần roll (mặc định là 10)')
                 .setRequired(false)
+ 		.setMinValue(1)
+                .setMaxValue(2000)
         ),
     new SlashCommandBuilder()
         .setName('resetpity')
