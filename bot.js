@@ -245,39 +245,39 @@ client.once('ready', () => {
 
 // Xử lý tin nhắn
 client.on('messageCreate', async (message) => {
-    // if (message.content.startsWith('/gacha')) {
-    //     const args = message.content.split(' ');
-    //     const rolls = parseInt(args[1]) || 10; // Mặc định roll 10 nếu không nhập số
+    if (message.content.startsWith('/gacha')) {
+        const args = message.content.split(' ');
+        const rolls = parseInt(args[1]) || 10; // Mặc định roll 10 nếu không nhập số
 
-    //     // Lấy hoặc tạo người dùng
-    //     const userId = message.author.id;
-    //     if (!users[userId]) {
-    //         users[userId] = new User(message.author.username);
-    //     }
+        // Lấy hoặc tạo người dùng
+        const userId = message.author.id;
+        if (!users[userId]) {
+            users[userId] = new User(message.author.username);
+        }
 
-    //     const user = users[userId];
+        const user = users[userId];
 
-    //     await message.reply("Tèo teo... teo tèo teo teo téo.....");
+        const sentMess = await message.reply("Tèo teo... teo tèo teo teo téo.....");
 
-    //     const { results, highestStar } = simulateGacha(user, rolls);
+        const { results, highestStar } = simulateGacha(user, rolls);
 
-    //     let initialMessage = "🟦...";
-    //     let secondMessage = highestStar >= 4 ? "🟪 **!**" : null;
-    //     let finalMessage = highestStar === 5 ? "🟨 **✨✨✨**" : null;
+        let initialMessage = "🟦...";
+        let secondMessage = highestStar >= 4 ? "🟪 **!**" : null;
+        let finalMessage = highestStar === 5 ? "🟨 **✨✨✨**" : null;
 
-    //     await delay(700); 
-    //     await message.edit("🟦...");
-    //     if (secondMessage) {
-    //         await delay(600);
-    //         await message.edit(secondMessage);
-    //     }
-    //     if (finalMessage) {
-    //         await delay(700); 
-    //         await message.edit(finalMessage);
-    //     }
-    //     await delay(500)
-    //     showGachaResults(message, user, results, rolls, highestStar);
-    // } else 
+        await delay(700); 
+        await sentMess.edit("🟦...");
+        if (secondMessage) {
+            await delay(600);
+            await sentMess.edit(secondMessage);
+        }
+        if (finalMessage) {
+            await delay(700); 
+            await sentMess.edit(finalMessage);
+        }
+        await delay(500)
+        showGachaResults(sentMess, user, results, rolls, highestStar);
+    } else 
     if (message.content === '/resetpity') {
         const userId = message.author.id;
         if (users[userId]) {
