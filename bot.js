@@ -66,6 +66,8 @@ function simulateGacha(user, totalRolls) {
 
     user.totalRolls += totalRolls;
 
+    const currentRoll5StarResults = [];
+
     for (let i = 1; i <= totalRolls; i++) {
         user.pity5++;
         user.pity4++;
@@ -87,11 +89,13 @@ function simulateGacha(user, totalRolls) {
                 const deviatedCharacter = DEVIATED_5_STARS[Math.floor(r() * DEVIATED_5_STARS.length)];
                 results.push(`**✨ 5★ Sadge: ${deviatedCharacter} (Pity: ${user.pity5})**`);
                 user.fiveStarDetails.push(deviatedCharacter);
+                currentRoll5StarResults.push(deviatedCharacter);
                 user.last5StarDeviated = true;
                 user.count5StarDeviated++;
             } else {
                 results.push(`**🌟🌟🌟 5★ Rate Up: ${RATE_UP_5_STAR} (Pity: ${user.pity5}) 🎉**`);
                 user.fiveStarDetails.push(RATE_UP_5_STAR);
+                currentRoll5StarResults.push(RATE_UP_5_STAR);
                 user.last5StarDeviated = false;
                 user.count5StarRateUp++;
             }
@@ -109,14 +113,14 @@ function simulateGacha(user, totalRolls) {
         }
     }
 
-    return { results, highestStar };
+    return { results, highestStar, currentRoll5StarResults };
 }
 
 function delay(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-async function showGachaResults(interaction, user, results, rolls, highestStar) {
+async function showGachaResults(interaction, user, results, rolls, highestStar, currentRoll5StarResults) {
     const isInteraction = interaction.isInteraction; 
     const target = isInteraction ? interaction : interaction.channel; 
     if (rolls > 100) {
@@ -135,7 +139,7 @@ async function showGachaResults(interaction, user, results, rolls, highestStar) 
 - **Total 3★ this time:** ${totalThreeStarsThisRoll}
 
 📋 **5★ Characters Obtained:**
-${user.fiveStarDetails.slice(-rolls).map((char, idx) => `#${idx + 1}: ${char}`).join('\n')}
+${currentRoll5StarResults.map((char, idx) => `#${idx + 1}: ${char}`).join('\n')}
 
 📊 **Stats:**
 - 5★ pity: ${user.pity5}
@@ -194,7 +198,7 @@ client.on('interactionCreate', async interaction => {
 
         await interaction.reply("Tèo teo... teo tèo teo teo téo.....");
 
-        const { results, highestStar } = simulateGacha(user, rolls);
+        const { results, highestStar, currentRoll5StarResults } = simulateGacha(user, rolls);
 
         let initialMessage = "🟦...";
         let secondMessage = highestStar >= 4 ? "🟪 **!**" : null;
@@ -211,7 +215,7 @@ client.on('interactionCreate', async interaction => {
             await interaction.editReply(finalMessage);
         }
         await delay(500)
-        showGachaResults(interaction, user, results, rolls, highestStar);
+        showGachaResults(interaction, user, results, rolls, highestStar, currentRoll5StarResults);
     } else if (commandName === 'resetpity') {
         const userId = interaction.user.id;
         if (users[userId]) {
@@ -259,7 +263,7 @@ client.on('messageCreate', async (message) => {
 
         const sentMess = await message.reply("Tèo teo... teo tèo teo teo téo.....");
 
-        const { results, highestStar } = simulateGacha(user, rolls);
+        const { results, highestStar, currentRoll5StarResults } = simulateGacha(user, rolls);
 
         let initialMessage = "🟦...";
         let secondMessage = highestStar >= 4 ? "🟪 **!**" : null;
@@ -276,7 +280,7 @@ client.on('messageCreate', async (message) => {
             await sentMess.edit(finalMessage);
         }
         await delay(500)
-        showGachaResults(sentMess, user, results, rolls, highestStar);
+        showGachaResults(sentMess, user, results, rolls, highestStar, currentRoll5StarResults);
     } else 
     if (message.content === '/resetpity') {
         const userId = message.author.id;
