@@ -117,6 +117,8 @@ function delay(ms) {
 }
 
 async function showGachaResults(interaction, user, results, rolls, highestStar) {
+    const isInteraction = interaction.isInteraction; 
+    const target = isInteraction ? interaction : interaction.channel; 
     if (rolls > 100) {
         const rateUpCount = results.filter(res => res.includes("Rate Up")).length;
         const deviatedCount = results.filter(res => res.includes("Sadge")).length;
@@ -146,7 +148,11 @@ ${user.fiveStarDetails.slice(-rolls).map((char, idx) => `#${idx + 1}: ${char}`).
 - Total 4★: ${user.count4Star}
 - Total 3★: ${user.count3Star}`;
 
-        await interaction.editReply(response);
+        if (isInteraction) {
+            await target.editReply(response);  
+        } else {
+            await target.send(response); 
+        }
     } else {
         const response = `
 🎰 **${user.name}'s Gacha Results** 🎰
@@ -163,7 +169,11 @@ ${results.map((res, idx) => `Roll ${idx + 1}: ${res}`).join('\n')}
 - Total 4★: ${user.count4Star}
 - Total 3★: ${user.count3Star}`;
 
-        await interaction.editReply(response);
+        if (isInteraction) {
+            await target.editReply(response); 
+        } else {
+            await target.send(response);
+        }
     }
 }
 
@@ -247,7 +257,7 @@ client.on('messageCreate', async (message) => {
 
         const user = users[userId];
 
-        await interaction.reply("Tèo teo... teo tèo teo teo téo.....");
+        await message.reply("Tèo teo... teo tèo teo teo téo.....");
 
         const { results, highestStar } = simulateGacha(user, rolls);
 
@@ -256,17 +266,17 @@ client.on('messageCreate', async (message) => {
         let finalMessage = highestStar === 5 ? "🟨 **✨✨✨**" : null;
 
         await delay(700); 
-        await interaction.editReply("🟦...");
+        await message.edit("🟦...");
         if (secondMessage) {
             await delay(600);
-            await interaction.editReply(secondMessage);
+            await message.edit(secondMessage);
         }
         if (finalMessage) {
             await delay(700); 
-            await interaction.editReply(finalMessage);
+            await message.edit(finalMessage);
         }
         await delay(500)
-        showGachaResults(interaction, user, results, rolls, highestStar);
+        showGachaResults(message, user, results, rolls, highestStar);
     } else if (message.content === '/resetpity') {
         const userId = message.author.id;
         if (users[userId]) {
