@@ -14,7 +14,7 @@ const PITY_4 = 10;
 const BASE_RATE_5 = 0.008;
 const BASE_RATE_4 = 0.06;
 const BASE_RATE_3 = 0.932;
-const RATE_UP_5_STAR = "Carlotta";
+const RATE_UP_5_STAR = "Dani";
 const DEVIATED_5_STARS = ["Verina", "Cancharo", "Anko", "Danxin", "Linhdan"];
 
 class User {
